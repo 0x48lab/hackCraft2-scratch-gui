@@ -46,7 +46,19 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
+import hackcraft2IconURL from './hackcraft2/hackcraft2.png';
+import hackcraft2InsetIconURL from './hackcraft2/hackcraft2-small.png';
+
 export default [
+    {
+        name: 'hackCraft2',
+        extensionId: 'hackcraft2',
+        iconURL: hackcraft2IconURL,
+        insetIconURL: hackcraft2InsetIconURL,
+        description: 'Manipulate entities on the hackCraft2 server',
+        featured: true,
+        internetConnectionRequired: true
+    },
     {
         name: (
             <FormattedMessage
