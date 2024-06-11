@@ -1,0 +1,57 @@
+/**
+ * Scratch modifications
+ */
+
+[class^='stage-header_unselect-wrapper'] {
+  /* Match the background color between 3D button and full screen button. */
+  background-color: rgb(232, 237, 241);
+
+  /* Make 3D button in the header not wrap when stage set to full screen. */
+  display: flex;
+}
+
+/**
+ * hackCraft2
+ */
+
+/* Toggle 3D button */
+
+[class^='toggle-buttons_button'].toggle3d {
+  background-color: white;
+}
+
+ .hackcraft.toggle3d {
+  border: 1px solid hsla(0, 0%, 0%, 0.15);
+  border-radius: calc(0.5rem / 2);
+  margin-right: .2rem;
+}
+
+.hackcraft.toggle3d.on {
+  background-color: hsla(260, 60%, 60%, 0.15);
+}
+
+.hackcraft.toggle3d:focus::before {
+  border-radius: calc(0.5rem / 2);
+}
+
+/* 3d-view main component wrapper */
+
+[class^='stage-wrapper_stage-canvas-wrapper'] {
+  /* Set bounds for 3d-view's absolute positioning. */
+  position: relative;
+}
+
+/* 3d-view main component */
+
+threed-view {
+  border-radius: 0.5rem;
+  border: 0.0625rem solid hsla(0, 0%, 0%, 0.15);
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
