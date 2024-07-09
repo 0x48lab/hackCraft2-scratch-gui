@@ -14,24 +14,37 @@
  * hackCraft2
  */
 
-/* Toggle 3D button */
+/* Buttons */
 
-[class^='toggle-buttons_button'].toggle3d {
+[class^='toggle-buttons_button'].button {
   background-color: white;
 }
 
- .hackcraft.toggle3d {
+ .hackcraft.button {
   border: 1px solid hsla(0, 0%, 0%, 0.15);
   border-radius: calc(0.5rem / 2);
   margin-right: .2rem;
 }
 
-.hackcraft.toggle3d.on {
+.hackcraft.button.on {
   background-color: hsla(260, 60%, 60%, 0.15);
 }
 
-.hackcraft.toggle3d:focus::before {
+.hackcraft.button:focus::before {
   border-radius: calc(0.5rem / 2);
+}
+
+
+/* Toggle 3D button */
+
+
+/* Reload button */
+
+.hackcraft.reload {
+  background-image: url('images/rotate-right.png');
+  background-size: 16px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* 3d-view main component wrapper */
