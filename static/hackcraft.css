@@ -34,9 +34,23 @@
   border-radius: calc(0.5rem / 2);
 }
 
+.hackcraft.button.hidden {
+  display: none;
+}
+
 
 /* Toggle 3D button */
 
+/* Pointer-events button */
+
+.hackcraft.pointer-events {
+  background-image: url('images/arrow-pointer.png');
+  /* background-image: url('images/computer-mouse.png'); */
+  background-size: 10px;
+  /* background-size: 16px; */
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 /* Reload button */
 
