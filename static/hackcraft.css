@@ -38,6 +38,15 @@
   display: none;
 }
 
+/* Is dirty flag */
+
+.hackcraft.label.isDirty {
+  display: none;
+}
+
+.hackcraft.label.isDirty.show {
+  display: flex;
+}
 
 /* Toggle 3D button */
 
