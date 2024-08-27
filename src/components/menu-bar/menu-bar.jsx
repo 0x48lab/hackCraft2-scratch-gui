@@ -184,6 +184,7 @@ class MenuBar extends React.Component {
             'getSaveToComputerHandler',
             'restoreOptionMessage'
         ]);
+        props.vm.setCloseFileMenuCallback(this.props.onRequestCloseFile);
     }
     componentDidMount () {
         document.addEventListener('keydown', this.handleKeyPress);
