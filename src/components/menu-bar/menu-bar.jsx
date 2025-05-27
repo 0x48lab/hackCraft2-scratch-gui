@@ -92,6 +92,7 @@ import prehistoricLogo from './prehistoric-logo.svg';
 import oldtimeyLogo from './oldtimey-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
+import {messages as menuMessages} from '../../l10n/messages';
 
 const ariaMessages = defineMessages({
     tutorials: {
@@ -182,6 +183,8 @@ class MenuBar extends React.Component {
             'handleKeyPress',
             'handleRestoreOption',
             'getSaveToComputerHandler',
+            'getSaveToServerHandler',
+            'getLoadFromServerHandler',
             'restoreOptionMessage'
         ]);
         props.vm.setCloseFileMenuCallback(this.props.onRequestCloseFile);
@@ -290,6 +293,29 @@ class MenuBar extends React.Component {
             if (this.props.onProjectTelemetryEvent) {
                 const metadata = collectMetadata(this.props.vm, this.props.projectTitle, this.props.locale);
                 this.props.onProjectTelemetryEvent('projectDidSave', metadata);
+            }
+        };
+    }
+    getSaveToServerHandler () {
+        return () => {
+            this.props.onRequestCloseFile();
+            const vm = this.props.vm;
+            const extension = vm.extensionManager.getExtension('hackcraft2');
+            
+            if (extension) {
+                extension.getSaveToServerHandler()();
+            }
+        };
+    }
+
+    getLoadFromServerHandler () {
+        return () => {
+            this.props.onRequestCloseFile();
+            const vm = this.props.vm;
+            const extension = vm.extensionManager.getExtension('hackcraft2');
+            
+            if (extension) {
+                extension.getLoadFromServerHandler()();
             }
         };
     }
@@ -507,11 +533,21 @@ class MenuBar extends React.Component {
                                             >
                                                 <FormattedMessage
                                                     defaultMessage="Save to your computer"
-                                                    description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
+                                                    description="Menu bar item for downloading a project to your computer"
                                                     id="gui.menuBar.downloadToComputer"
                                                 />
                                             </MenuItem>
                                         )}</SB3Downloader>
+                                        <MenuItem
+                                            onClick={this.getLoadFromServerHandler()}
+                                        >
+                                            {this.props.intl.formatMessage(sharedMessages.loadFromServerTitle)}
+                                        </MenuItem>
+                                        <MenuItem
+                                            onClick={this.getSaveToServerHandler()}
+                                        >
+                                            {this.props.intl.formatMessage(sharedMessages.saveToServerTitle)}
+                                        </MenuItem>
                                     </MenuSection>
                                 </MenuBarMenu>
                             </div>

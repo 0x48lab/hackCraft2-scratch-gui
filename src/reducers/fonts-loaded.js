@@ -11,6 +11,8 @@ const reducer = function (state, action) {
         return state;
     }
 };
+
+// Action creator function
 const setFontsLoaded = () => ({
     type: SET_FONTS_LOADED,
     loaded: true

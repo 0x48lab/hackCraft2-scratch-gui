@@ -26,6 +26,13 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
     class AppStateWrapper extends React.Component {
         constructor (props) {
             super(props);
+            this.state = {
+                store: null
+            };
+            this.initializeStore(props);
+        }
+
+        async initializeStore(props) {
             let initialState = {};
             let reducers = {};
             let enhancer;
@@ -35,16 +42,14 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
             if (locale !== 'en') {
                 initializedLocales = initLocale(initializedLocales, locale);
             }
+
             if (localesOnly) {
-                // Used for instantiating minimal state for the unsupported
-                // browser modal
                 reducers = {locales: localesReducer};
                 initialState = {locales: initializedLocales};
                 enhancer = composeEnhancers();
             } else {
-                // You are right, this is gross. But it's necessary to avoid
-                // importing unneeded code that will crash unsupported browsers.
-                const guiRedux = require('../reducers/gui');
+                // Lazy load gui reducer
+                const guiRedux = await import('../reducers/gui');
                 const guiReducer = guiRedux.default;
                 const {
                     guiInitialState,
@@ -53,7 +58,7 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
                     initPlayer,
                     initTelemetryModal
                 } = guiRedux;
-                const {ScratchPaintReducer} = require('scratch-paint');
+                const {ScratchPaintReducer} = await import('scratch-paint');
 
                 let initializedGui = guiInitialState;
                 if (props.isFullScreen || props.isPlayerOnly) {
@@ -66,6 +71,7 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
                 } else if (props.showTelemetryModal) {
                     initializedGui = initTelemetryModal(initializedGui);
                 }
+
                 reducers = {
                     locales: localesReducer,
                     scratchGui: guiReducer,
@@ -77,31 +83,43 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
                 };
                 enhancer = composeEnhancers(guiMiddleware);
             }
+
             const reducer = combineReducers(reducers);
-            this.store = createStore(
+            const store = createStore(
                 reducer,
                 initialState,
                 enhancer
             );
+
+            this.setState({ store });
         }
-        componentDidUpdate (prevProps) {
-            if (localesOnly) return;
-            if (prevProps.isPlayerOnly !== this.props.isPlayerOnly) {
-                this.store.dispatch(setPlayer(this.props.isPlayerOnly));
-            }
-            if (prevProps.isFullScreen !== this.props.isFullScreen) {
-                this.store.dispatch(setFullScreen(this.props.isFullScreen));
+
+        componentDidUpdate(prevProps) {
+            if (this.state.store && !localesOnly) {
+                if (prevProps.isPlayerOnly !== this.props.isPlayerOnly) {
+                    this.state.store.dispatch(setPlayer(this.props.isPlayerOnly));
+                }
+                if (prevProps.isFullScreen !== this.props.isFullScreen) {
+                    this.state.store.dispatch(setFullScreen(this.props.isFullScreen));
+                }
             }
         }
-        render () {
+
+        render() {
+            if (!this.state.store) {
+                // Show loading state or null while store is being initialized
+                return null;
+            }
+
             const {
                 isFullScreen, // eslint-disable-line no-unused-vars
                 isPlayerOnly, // eslint-disable-line no-unused-vars
                 showTelemetryModal, // eslint-disable-line no-unused-vars
                 ...componentProps
             } = this.props;
+
             return (
-                <Provider store={this.store}>
+                <Provider store={this.state.store}>
                     <ConnectedIntlProvider>
                         <WrappedComponent
                             {...componentProps}
@@ -111,12 +129,13 @@ const AppStateHOC = function (WrappedComponent, localesOnly) {
             );
         }
     }
+
     AppStateWrapper.propTypes = {
         isFullScreen: PropTypes.bool,
         isPlayerOnly: PropTypes.bool,
-        isTelemetryEnabled: PropTypes.bool,
         showTelemetryModal: PropTypes.bool
     };
+
     return AppStateWrapper;
 };
 
