@@ -73,6 +73,7 @@ import {
 } from '../../reducers/menus';
 
 import collectMetadata from '../../lib/collect-metadata';
+import sharedMessages from '../../lib/shared-messages';
 
 import styles from './menu-bar.css';
 
@@ -91,7 +92,6 @@ import catLogo from './cat_logo.svg';
 import prehistoricLogo from './prehistoric-logo.svg';
 import oldtimeyLogo from './oldtimey-logo.svg';
 
-import sharedMessages from '../../lib/shared-messages';
 import {messages as menuMessages} from '../../l10n/messages';
 
 const ariaMessages = defineMessages({
@@ -187,7 +187,6 @@ class MenuBar extends React.Component {
             'getLoadFromServerHandler',
             'restoreOptionMessage'
         ]);
-        props.vm.setCloseFileMenuCallback(this.props.onRequestCloseFile);
     }
     componentDidMount () {
         document.addEventListener('keydown', this.handleKeyPress);
@@ -399,13 +398,6 @@ class MenuBar extends React.Component {
         };
     }
     render () {
-        const saveNowMessage = (
-            <FormattedMessage
-                defaultMessage="Save now"
-                description="Menu bar item for saving now"
-                id="gui.menuBar.saveNow"
-            />
-        );
         const createCopyMessage = (
             <FormattedMessage
                 defaultMessage="Save as a copy"
@@ -503,11 +495,6 @@ class MenuBar extends React.Component {
                                     </MenuSection>
                                     {(this.props.canSave || this.props.canCreateCopy || this.props.canRemix) && (
                                         <MenuSection>
-                                            {this.props.canSave && (
-                                                <MenuItem onClick={this.handleClickSave}>
-                                                    {saveNowMessage}
-                                                </MenuItem>
-                                            )}
                                             {this.props.canCreateCopy && (
                                                 <MenuItem onClick={this.handleClickSaveAsCopy}>
                                                     {createCopyMessage}
