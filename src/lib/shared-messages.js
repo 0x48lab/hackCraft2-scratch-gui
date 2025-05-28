@@ -38,7 +38,7 @@ export default defineMessages({
     },
     saveToServerTitle: {
         id: 'gui.sharedMessages.saveToServerTitle',
-        defaultMessage: 'Save to server',
+        defaultMessage: 'Save now',
         description: 'Title for saving a project to server'
     }
 });

@@ -2,11 +2,11 @@
 const sharedLocaleMessages = {
     ja: {
         'gui.sharedMessages.loadFromServerTitle': 'サーバーから読み込む',
-        'gui.sharedMessages.saveToServerTitle': 'サーバーに保存'
+        'gui.sharedMessages.saveToServerTitle': '直ちに保存'
     },
     'ja-hiragana': {
         'gui.sharedMessages.loadFromServerTitle': 'さーばーからよみこむ',
-        'gui.sharedMessages.saveToServerTitle': 'さーばーにほぞん'
+        'gui.sharedMessages.saveToServerTitle': 'ただちにほぞん'
     }
 };
 
